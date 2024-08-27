@@ -45,7 +45,15 @@ cluster-configs:
 
     egov-filestore: 
       namespace: egov
-      name: egov-filestore     
+      name: egov-filestore
+
+    pgr-ai-chatbot:
+      namespace: egov
+      name: pgr-ai-chatbot
+      
+    egov-filestore-azure: 
+      namespace: egov
+      name: egov-filestore-azure     
       
     egov-location: 
       namespace: egov
@@ -142,3 +150,7 @@ cluster-configs:
     postgres:
       namespace: jenkins
       name: postgres
+    
+    airflow:
+      namespace: egov
+      name: airflow

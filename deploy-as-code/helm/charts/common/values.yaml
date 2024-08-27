@@ -15,6 +15,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/use-regex: "true" 
+   # nginx.ingress.kubernetes.io/limit-rpm: "300"
   waf: 
     enabled: true
     annotations:
@@ -206,7 +207,23 @@ extraEnv:
         valueFrom:
           configMapKeyRef:
             name: egov-config
-            key: spring-jpa-show-sql           
+            key: spring-jpa-show-sql  
+      - name: STATE_LEVEL_TENANTID_LENGTH
+        value: "1"            
+      - name: IS_ENVIRONMENT_CENTRAL_INSTANCE
+        value: "false"
+      - name: STATE_SCHEMA_INDEX_POSITION_TENANTID
+        value: "0"
+      - name: KAFKA_TOPIC_AUDIT
+      {{- if index .Values "kafka.topic.audit" }}
+        value: {{ index .Values "kafka.topic.audit" | quote }}
+      {{- else }}
+        value: "enc-user-audit-data"
+      {{- end }}           
+        
+            
+            
+            
   jaeger: |             
       - name: JAEGER_SERVICE_NAME
         value: {{ template "common.name" . }}
@@ -265,3 +282,7 @@ cron:
 
   ## Add additional mounts
   extraVolumeMounts: |
+
+vpa:
+  enabled: false  
+  updateMode: "Off"
